@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Matrix, StateSpaceModel } from "./state-space-model";
-// パスを調整
-
+import { StateSpaceModel } from "./state-space-model";
+import { Matrix } from "../helpers/Matrix";
 describe("StateSpaceModel", () => {
 	// 行列の定義
 	const A_data = [
