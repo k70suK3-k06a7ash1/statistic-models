@@ -46,8 +46,8 @@ export class TripleExponentialSmoothing {
 	// 予測
 	forecast(steps: number): number[] {
 		const forecastValues: number[] = [];
-		let currentLevel = this.level;
-		let currentTrend = this.trend;
+		const currentLevel = this.level;
+		const currentTrend = this.trend;
 
 		for (let i = 0; i < steps; i++) {
 			const seasonalIndex = i % this.period;
