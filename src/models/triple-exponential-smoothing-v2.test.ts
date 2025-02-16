@@ -1,5 +1,45 @@
-import { describe, it, expect } from "vitest";
-import { TripleExponentialSmoothing } from "./triple-exponential-smoothing";
+import { describe, it, expect, beforeEach } from "vitest";
+import { TripleExponentialSmoothing } from "./triple-exponential-smoothing-v2";
+
+describe("TripleExponentialSmoothing", () => {
+	let model: TripleExponentialSmoothing;
+	const alpha = 0.5;
+	const beta = 0.3;
+	const gamma = 0.2;
+	const period = 4;
+	const data = [10, 20, 15, 25, 12, 22, 18, 28, 14, 24, 19, 29];
+
+	beforeEach(() => {
+		model = new TripleExponentialSmoothing(alpha, beta, gamma, period);
+	});
+
+	it("should initialize correctly", () => {
+		model.initialize(data);
+		expect(model.level).toBeDefined();
+		expect(model.trend).toBeDefined();
+		expect(model.seasonal.length).toBe(period);
+	});
+
+	it("should forecast future values", () => {
+		model.initialize(data);
+		const predictions = model.forecast(4);
+		expect(predictions.length).toBe(4);
+	});
+
+	it("should update the model with new data", () => {
+		model.initialize(data);
+		const prevLevel = model.level;
+		model.update(30);
+		expect(model.level).not.toBe(prevLevel);
+	});
+
+	it("should train the model with new data", () => {
+		model.initialize(data);
+		const prevHistoryLength = model.history.length;
+		model.train([35, 40, 38, 45]);
+		expect(model.history.length).toBe(prevHistoryLength + 4);
+	});
+});
 
 describe("TripleExponentialSmoothing", () => {
 	const alpha = 0.2;
