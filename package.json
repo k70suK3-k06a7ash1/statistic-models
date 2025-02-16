@@ -1,13 +1,19 @@
 {
-	"name": "statistics-ts",
+	"name": "statistic-models",
+	"version": "0.0.2",
 	"module": "index.ts",
 	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
+		"barrel": "barrelsby --directory src --exclude index.ts",
+		"build": "tsc",
 		"test": "vitest run",
 		"test-watch": "vitest --watch"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
+		"barrelsby": "^2.8.1",
 		"vitest": "^3.0.5"
 	},
 	"peerDependencies": {
