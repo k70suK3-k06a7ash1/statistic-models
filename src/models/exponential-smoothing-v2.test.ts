@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { exponentialSmoothing } from "./exponential-smoothing";
+import { exponentialSmoothing } from "./exponential-smoothing-v2";
 
 test("exponentialSmoothing should return the original array if alpha is 1", () => {
 	const data = [1, 2, 3];
