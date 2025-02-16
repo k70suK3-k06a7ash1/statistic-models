@@ -1,6 +1,71 @@
-import { describe, it, expect } from "vitest";
-import { StateSpaceModel } from "./state-space-model";
+import { describe, it, beforeEach, expect } from "vitest";
+import { StateSpaceModel } from "./state-space-model-v2";
 import { Matrix } from "../helpers/Matrix";
+
+describe("StateSpaceModel", () => {
+	let model: StateSpaceModel;
+
+	beforeEach(() => {
+		const A = [
+			[1, 0],
+			[0, 1],
+		];
+		const B = [
+			[1, 0],
+			[0, 1],
+		];
+		const C = [
+			[1, 0],
+			[0, 1],
+		];
+		const D = [
+			[0, 0],
+			[0, 0],
+		];
+		const initial_x = [[0], [0]];
+
+		model = new StateSpaceModel(A, B, C, D, initial_x);
+	});
+
+	it("should initialize correctly", () => {
+		expect(model.x).toEqual(new Matrix(2, 1, [[0], [0]]));
+	});
+
+	it("should predict next state correctly", () => {
+		const u = [[1], [2]];
+		const expectedState = new Matrix(2, 1, [[1], [2]]);
+		const predictedState = model.predict(u);
+		expect(predictedState).toEqual(expectedState);
+	});
+
+	it("should compute observation correctly", () => {
+		const u = [[1], [2]];
+		model.predict(u);
+		const expectedObservation = new Matrix(2, 1, [[1], [2]]);
+		const observed = model.observe(u);
+		expect(observed).toEqual(expectedObservation);
+	});
+
+	it("should update state using Kalman filter", () => {
+		const y = [[2], [3]];
+		const R = [
+			[1, 0],
+			[0, 1],
+		];
+		const Q = [
+			[0.1, 0],
+			[0, 0.1],
+		];
+		const P = [
+			[1, 0],
+			[0, 1],
+		];
+		model.updateWithKalman(y, R, Q, P);
+		expect(model.x.data[0][0]).toBeCloseTo(1.0476190476190477, 1);
+		expect(model.x.data[1][0]).toBeCloseTo(1.5714285714285716, 1);
+	});
+});
+
 describe("StateSpaceModel", () => {
 	// 行列の定義
 	const A_data = [

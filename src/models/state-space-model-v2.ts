@@ -72,7 +72,10 @@ export class StateSpaceModel {
 		this.x = this.x.add(K.multiply(innovation));
 
 		// 誤差共分散行列の更新
+		// const identityMatrix = Matrix.identity(this.A.rows);
+		// PMatrix = identityMatrix.subtract(K.multiply(this.C)).multiply(PMatrix);
 		const identityMatrix = Matrix.identity(this.A.rows);
 		PMatrix = identityMatrix.subtract(K.multiply(this.C)).multiply(PMatrix);
+		PMatrix = PMatrix.add(PMatrix.transpose()).multiply(0.5);
 	}
 }
