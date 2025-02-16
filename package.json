@@ -1,12 +1,20 @@
 {
 	"name": "statistic-models",
-	"version": "0.0.7",
-	"module": "dist/index.ts",
+	"version": "0.0.8",
+	"module": "dist/index.js",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"author": "k70suk3",
 	"license": "MIT",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.js"
+		}
+	},
+	"files": ["dist/**/*"],
 	"scripts": {
 		"barrel": "barrelsby --directory src --exclude index.ts",
 		"build": "tsc",
@@ -16,9 +24,8 @@
 	"devDependencies": {
 		"@types/bun": "latest",
 		"barrelsby": "^2.8.1",
-		"vitest": "^3.0.5"
-	},
-	"peerDependencies": {
+		"vitest": "^3.0.5",
 		"typescript": "^5.0.0"
-	}
+	},
+	"peerDependencies": {}
 }
