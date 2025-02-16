@@ -3,14 +3,9 @@ export function movingAverage(data: number[], windowSize: number): number[] {
 		return [];
 	}
 
-	const result: number[] = [];
-	for (let i = 0; i <= data.length - windowSize; i++) {
-		let sum = 0;
-		for (let j = i; j < i + windowSize; j++) {
-			sum += data[j];
-		}
-		result.push(sum / windowSize);
-	}
-
-	return result;
+	return Array.from({ length: data.length - windowSize + 1 }, (_, i) => {
+		const window = data.slice(i, i + windowSize);
+		const sum = window.reduce((acc, val) => acc + val, 0);
+		return sum / windowSize;
+	});
 }
