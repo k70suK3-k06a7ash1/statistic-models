@@ -1,5 +1,5 @@
 export * from "./helpers/Matrix";
-export * from "./models/double-exponential-smoothing-additive";
+export * from "./models/double-exponential-smoothing-additive-v2";
 export * from "./models/double-exponential-smoothing-multiplicative";
 export * from "./models/exponential-smoothing";
 export * from "./models/moving-average";
