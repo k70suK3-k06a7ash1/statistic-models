@@ -18,7 +18,7 @@ test("exponentialSmoothing should handle empty array correctly", () => {
 	const data: number[] = [];
 	const alpha = 0.5;
 	const smoothedData = exponentialSmoothing(data, alpha);
-	expect(smoothedData).toEqual([]); // 初期値がundefinedになる
+	expect(smoothedData).toEqual([]);
 });
 
 test("exponentialSmoothing should work correctly with negative numbers", () => {
