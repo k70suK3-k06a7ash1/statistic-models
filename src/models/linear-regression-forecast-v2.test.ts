@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { linearRegressionForecast } from "./linear-regression-forecast";
+import { linearRegressionForecast } from "./linear-regression-forecast-v2";
 
 describe("linearRegressionForecast", () => {
 	test("should predict future values based on linear regression", () => {
@@ -11,6 +11,9 @@ describe("linearRegressionForecast", () => {
 
 		expect(forecast.length).toBe(forecastHorizon);
 		expect(forecast[0]).toBeGreaterThan(0);
+		expect(forecast).toEqual([
+			27.316199962413137, 30.328439375339528, 33.16705128188415,
+		]);
 	});
 
 	test("should throw an error when data length is less than or equal to lag", () => {
@@ -18,15 +21,4 @@ describe("linearRegressionForecast", () => {
 			"データ長がラグより大きい必要があります。",
 		);
 	});
-
-	// test("should return a reasonable prediction trend", () => {
-	// 	const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-	// 	const forecastHorizon = 5;
-	// 	const lag = 3;
-
-	// 	const forecast = linearRegressionForecast(data, forecastHorizon, lag);
-
-	// 	expect(forecast.length).toBe(forecastHorizon);
-	// 	expect(forecast[0]).toBeGreaterThan(data[data.length - 1]);
-	// });
 });
