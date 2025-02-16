@@ -1,6 +1,47 @@
-import { describe, it, expect } from "vitest";
-import { VectorAutoregression } from "./vector-autoregression";
+import { describe, it, expect, beforeEach } from "vitest";
+import { VectorAutoregression } from "./vector-autoregression-v2";
 import { Matrix } from "../helpers/Matrix";
+
+describe("VectorAutoregression", () => {
+	let varModel: VectorAutoregression;
+
+	beforeEach(() => {
+		varModel = new VectorAutoregression(2, 2); // ラグ数2、変数2のモデル
+	});
+
+	it("should initialize with correct parameters", () => {
+		expect(varModel.p).toBe(2);
+		expect(varModel.k).toBe(2);
+		expect(varModel.coefficients.length).toBe(2);
+		// biome-ignore lint/complexity/noForEach: <explanation>
+		varModel.coefficients.forEach((matrix) => {
+			expect(matrix.rows).toBe(2);
+			expect(matrix.cols).toBe(2);
+		});
+	});
+
+	it("should throw an error if data length is less than lag count", () => {
+		const data = [
+			[1, 2],
+			[3, 4], // 2行しかないのでラグ2に足りない
+		];
+		expect(() => varModel.prepareData(data)).toThrow("データが少なすぎます");
+	});
+
+	it("should correctly prepare data", () => {
+		const data = [
+			[1, 2],
+			[3, 4],
+			[5, 6],
+			[7, 8],
+		];
+		const { Y, X } = varModel.prepareData(data);
+		expect(Y.rows).toBe(2); // 2行のY
+		expect(Y.cols).toBe(2); // 変数の数
+		expect(X.rows).toBe(2); // 2行のX
+		expect(X.cols).toBe(4); // 2 * 2 (p * k)
+	});
+});
 
 describe("VectorAutoregression", () => {
 	const data = [

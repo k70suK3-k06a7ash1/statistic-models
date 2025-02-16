@@ -5,5 +5,5 @@ export * from "./models/exponential-smoothing-v2";
 export * from "./models/moving-average-v2";
 export * from "./models/state-space-model-v2";
 export * from "./models/triple-exponential-smoothing-v2";
-export * from "./models/vector-autoregression";
+export * from "./models/vector-autoregression-v2";
 export * from "./types/DoubleExponentialSmoothingResult";
