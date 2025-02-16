@@ -8,7 +8,7 @@ describe("exponentialSmoothingForecast", () => {
 		const forecastHorizon = 3;
 		const smoothingLevel = 0.2;
 		const expected = [
-			16.975208960000003, 16.975208960000003, 16.975208960000003,
+			18.048950784000002, 18.048950784000002, 18.048950784000002,
 		];
 		expect(
 			exponentialSmoothingForecast(data, forecastHorizon, smoothingLevel),
@@ -19,7 +19,7 @@ describe("exponentialSmoothingForecast", () => {
 		const data = [10, 12, 13, 11, 14, 17, 20, 18, 22, 25];
 		const forecastHorizon = 2;
 		const smoothingLevel = 0.5;
-		const expected = [22.419921875, 22.419921875];
+		const expected = [22.4296875, 22.4296875];
 		expect(
 			exponentialSmoothingForecast(data, forecastHorizon, smoothingLevel),
 		).toEqual(expected);
@@ -29,7 +29,7 @@ describe("exponentialSmoothingForecast", () => {
 		const data = [5, 10];
 		const forecastHorizon = 1;
 		const smoothingLevel = 0.3;
-		const expected = [4.05];
+		const expected = [6.5];
 		expect(
 			exponentialSmoothingForecast(data, forecastHorizon, smoothingLevel),
 		).toEqual(expected);
@@ -49,7 +49,7 @@ describe("exponentialSmoothingForecast", () => {
 		const data = [10, 12, 13, 11, 14, 17, 20, 18, 22, 25];
 		const forecastHorizon = 3;
 		const expected = [
-			16.975208960000003, 16.975208960000003, 16.975208960000003,
+			18.048950784000002, 18.048950784000002, 18.048950784000002,
 		];
 		expect(exponentialSmoothingForecast(data, forecastHorizon)).toEqual(
 			expected,

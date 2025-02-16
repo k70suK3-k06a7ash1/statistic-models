@@ -21,17 +21,15 @@ export function exponentialSmoothingForecast(
 			.reduce(
 				(prevLevel, currentVal) =>
 					smoothingLevel * currentVal + (1 - smoothingLevel) * prevLevel,
-				0,
+				data[0],
 			);
 	}
 
 	const forecast: number[] = [];
-	let currentForecast = lastLevel;
+	const currentForecast = lastLevel;
 
 	for (let i = 0; i < forecastHorizon; i++) {
 		forecast.push(currentForecast);
-		currentForecast =
-			smoothingLevel * currentForecast + (1 - smoothingLevel) * currentForecast; // 同じ値を予測
 	}
 
 	return forecast;
