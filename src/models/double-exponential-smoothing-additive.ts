@@ -15,6 +15,12 @@ export function doubleExponentialSmoothingAdditive(
 		throw new Error("Alpha and Beta must be between 0 and 1.");
 	}
 
+	// if (data.length < 2) {
+	// 	throw new Error(
+	// 		"Data must contain at least two data points for initialization.",
+	// 	);
+	// }
+
 	// 初期値を定義
 	const initialState: SmoothingState = {
 		level: data[0],
@@ -30,13 +36,13 @@ export function doubleExponentialSmoothingAdditive(
 	} = data.slice(1).reduce(
 		(
 			acc: { level: number[]; trend: number[]; smoothedData: number[] },
-			currentValue: number,
+			dataPoint: number, // 変数名を変更
 		) => {
 			const lastLevel = acc.level[acc.level.length - 1];
 			const lastTrend = acc.trend[acc.trend.length - 1];
 
 			const currentLevel =
-				alpha * currentValue + (1 - alpha) * (lastLevel + lastTrend);
+				alpha * dataPoint + (1 - alpha) * (lastLevel + lastTrend);
 			const currentTrend =
 				beta * (currentLevel - lastLevel) + (1 - beta) * lastTrend;
 
@@ -50,7 +56,7 @@ export function doubleExponentialSmoothingAdditive(
 			level: [initialState.level],
 			trend: [initialState.trend],
 			smoothedData: [initialState.smoothedData],
-		},
+		} as { level: number[]; trend: number[]; smoothedData: number[] }, // 型を明確化
 	);
 
 	const forecast = (steps: number): number[] => {

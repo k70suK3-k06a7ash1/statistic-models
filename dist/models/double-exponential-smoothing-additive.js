@@ -11,6 +11,11 @@ export function doubleExponentialSmoothingAdditive(data, alpha, beta) {
     if (alpha <= 0 || alpha > 1 || beta <= 0 || beta > 1) {
         throw new Error("Alpha and Beta must be between 0 and 1.");
     }
+    // if (data.length < 2) {
+    // 	throw new Error(
+    // 		"Data must contain at least two data points for initialization.",
+    // 	);
+    // }
     // 初期値を定義
     var initialState = {
         level: data[0],
@@ -18,10 +23,10 @@ export function doubleExponentialSmoothingAdditive(data, alpha, beta) {
         smoothedData: data[0],
     };
     // スムージング処理をreduceで実行
-    var _a = data.slice(1).reduce(function (acc, currentValue) {
+    var _a = data.slice(1).reduce(function (acc, dataPoint) {
         var lastLevel = acc.level[acc.level.length - 1];
         var lastTrend = acc.trend[acc.trend.length - 1];
-        var currentLevel = alpha * currentValue + (1 - alpha) * (lastLevel + lastTrend);
+        var currentLevel = alpha * dataPoint + (1 - alpha) * (lastLevel + lastTrend);
         var currentTrend = beta * (currentLevel - lastLevel) + (1 - beta) * lastTrend;
         return {
             level: __spreadArray(__spreadArray([], acc.level, true), [currentLevel], false),
