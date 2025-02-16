@@ -236,8 +236,7 @@ export class StateSpaceModel {
 		);
 
 		// 状態の更新
-		// biome-ignore lint/style/useConst: <explanation>
-		let innovation = yMatrix.subtract(this.C.multiply(this.x));
+		const innovation = yMatrix.subtract(this.C.multiply(this.x));
 		this.x = this.x.add(K.multiply(innovation));
 
 		// 誤差共分散行列の更新
