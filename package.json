@@ -1,10 +1,12 @@
 {
 	"name": "statistic-models",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"module": "index.ts",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"author": "k70suk3",
+	"license": "MIT",
 	"scripts": {
 		"barrel": "barrelsby --directory src --exclude index.ts",
 		"build": "tsc",
