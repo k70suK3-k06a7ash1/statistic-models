@@ -10,7 +10,7 @@ export function doubleExponentialSmoothingAdditive(
 	}
 
 	const level: number[] = [data[0]];
-	const trend: number[] = [data[1] - data[0]]; // 初期トレンド
+	const trend: number[] = [data[1] - data[0]];
 	const smoothedData: number[] = [data[0]];
 
 	for (let i = 1; i < data.length; i++) {
