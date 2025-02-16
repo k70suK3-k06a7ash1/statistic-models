@@ -1,7 +1,7 @@
 {
 	"name": "statistic-models",
-	"version": "0.0.6",
-	"module": "index.ts",
+	"version": "0.0.7",
+	"module": "dist/index.ts",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
