@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest";
 
-import { exponentialSmoothingForecast } from "./exponential-smoothing-forecast";
+import { exponentialSmoothingForecast } from "./exponential-smoothing-forecast-v2";
 
 describe("exponentialSmoothingForecast", () => {
 	it("正常系: 基本的な予測", () => {
