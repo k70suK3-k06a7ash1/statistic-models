@@ -1,6 +1,6 @@
 {
 	"name": "statistic-models",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"module": "dist/index.js",
 	"type": "module",
 	"main": "dist/index.js",

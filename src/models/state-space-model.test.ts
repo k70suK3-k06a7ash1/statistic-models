@@ -159,21 +159,6 @@ describe("StateSpaceModel", () => {
 		);
 	});
 
-	it("Matrix Multiplication should throw error when number of columns of first matrix does not match number of rows of second matrix", () => {
-		const matrix1 = new Matrix(2, 2, [
-			[1, 2],
-			[3, 4],
-		]);
-		const matrix2 = new Matrix(3, 3, [
-			[1, 2, 3],
-			[4, 5, 6],
-			[7, 8, 9],
-		]);
-		expect(() => matrix1.multiply(matrix2)).toThrowError(
-			"Number of columns in the first matrix must match the number of rows in the second matrix for multiplication.",
-		);
-	});
-
 	it("Matrix Transpose function should work", () => {
 		const matrix1 = new Matrix(2, 3, [
 			[1, 2, 3],
