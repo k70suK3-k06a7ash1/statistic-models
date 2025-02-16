@@ -3,10 +3,13 @@ export function exponentialSmoothing(data: number[], alpha: number): number[] {
 		throw new Error("Alpha must be between 0 and 1.");
 	}
 
-	const result: number[] = [data[0]]; // 初期値は最初のデータ
-	for (let i = 1; i < data.length; i++) {
-		const smoothedValue = alpha * data[i] + (1 - alpha) * result[i - 1];
-		result.push(smoothedValue);
-	}
-	return result;
+	return data.reduce((acc: number[], currentValue: number, index: number) => {
+		const previousSmoothedValue = acc[index - 1] ?? currentValue; // 初回は初期値
+		const smoothedValue =
+			index === 0
+				? currentValue
+				: alpha * currentValue + (1 - alpha) * previousSmoothedValue;
+		// biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+		return [...acc, smoothedValue];
+	}, []);
 }
