@@ -1,17 +1,21 @@
-import type { DoubleExponentialSmoothingResult } from "../types/DoubleExponentialSmoothingResult";
-
+// 改善された doubleExponentialSmoothingMultiplicative
 export function doubleExponentialSmoothingMultiplicative(
 	data: number[],
 	alpha: number,
 	beta: number,
-): DoubleExponentialSmoothingResult {
+) {
 	if (alpha <= 0 || alpha > 1 || beta <= 0 || beta > 1) {
 		throw new Error("Alpha and Beta must be between 0 and 1.");
 	}
+	if (data.length < 2 || data.some((d) => d <= 0)) {
+		throw new Error(
+			"Data must contain at least two positive data points for initialization.",
+		);
+	}
 
-	const level: number[] = [data[0]];
-	const trend: number[] = [data[1] / data[0]]; // 初期トレンド (比率)
-	const smoothedData: number[] = [data[0]];
+	const level = [data[0]];
+	const trend = [data[1] / data[0]];
+	const smoothedData = [data[0]];
 
 	for (let i = 1; i < data.length; i++) {
 		const currentLevel =
@@ -21,20 +25,16 @@ export function doubleExponentialSmoothingMultiplicative(
 
 		level.push(currentLevel);
 		trend.push(currentTrend);
-		smoothedData.push(currentLevel * currentTrend); // 平滑化された値
+		smoothedData.push(currentLevel * currentTrend);
 	}
 
-	const forecast = (steps: number): number[] => {
-		const forecastValues: number[] = [];
+	const forecast = (steps: number) => {
 		const lastLevel = level[level.length - 1];
 		const lastTrend = trend[trend.length - 1];
-
-		for (let i = 1; i <= steps; i++) {
-			const forecastValue = lastLevel * lastTrend ** i;
-			forecastValues.push(forecastValue);
-		}
-
-		return forecastValues;
+		return Array.from(
+			{ length: steps },
+			(_, i) => lastLevel * lastTrend ** (i + 1),
+		);
 	};
 
 	return { level, trend, smoothedData, forecast };
