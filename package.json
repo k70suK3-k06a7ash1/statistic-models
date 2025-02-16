@@ -3,7 +3,8 @@
 	"module": "index.ts",
 	"type": "module",
 	"scripts": {
-		"test": "vitest run"
+		"test": "vitest run",
+		"test-watch": "vitest --watch"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
