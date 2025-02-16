@@ -1,5 +1,11 @@
 import type { DoubleExponentialSmoothingResult } from "../types/DoubleExponentialSmoothingResult";
 
+interface SmoothingState {
+	level: number;
+	trend: number;
+	smoothedData: number;
+}
+
 export function doubleExponentialSmoothingAdditive(
 	data: number[],
 	alpha: number,
@@ -9,33 +15,58 @@ export function doubleExponentialSmoothingAdditive(
 		throw new Error("Alpha and Beta must be between 0 and 1.");
 	}
 
-	const level: number[] = [data[0]];
-	const trend: number[] = [data[1] - data[0]];
-	const smoothedData: number[] = [data[0]];
-
-	for (let i = 1; i < data.length; i++) {
-		const currentLevel =
-			alpha * data[i] + (1 - alpha) * (level[i - 1] + trend[i - 1]);
-		const currentTrend =
-			beta * (currentLevel - level[i - 1]) + (1 - beta) * trend[i - 1];
-
-		level.push(currentLevel);
-		trend.push(currentTrend);
-		smoothedData.push(currentLevel + currentTrend); // 予測値ではない。平滑化された値
-	}
-
-	const forecast = (steps: number): number[] => {
-		const forecastValues: number[] = [];
-		const lastLevel = level[level.length - 1];
-		const lastTrend = trend[trend.length - 1];
-
-		for (let i = 1; i <= steps; i++) {
-			const forecastValue = lastLevel + i * lastTrend;
-			forecastValues.push(forecastValue);
-		}
-
-		return forecastValues;
+	// 初期値を定義
+	const initialState: SmoothingState = {
+		level: data[0],
+		trend: data[1] - data[0],
+		smoothedData: data[0],
 	};
 
-	return { level, trend, smoothedData, forecast };
+	// スムージング処理をreduceで実行
+	const {
+		level: levels,
+		trend: trends,
+		smoothedData: smoothedValues,
+	} = data.slice(1).reduce(
+		(
+			acc: { level: number[]; trend: number[]; smoothedData: number[] },
+			currentValue: number,
+		) => {
+			const lastLevel = acc.level[acc.level.length - 1];
+			const lastTrend = acc.trend[acc.trend.length - 1];
+
+			const currentLevel =
+				alpha * currentValue + (1 - alpha) * (lastLevel + lastTrend);
+			const currentTrend =
+				beta * (currentLevel - lastLevel) + (1 - beta) * lastTrend;
+
+			return {
+				level: [...acc.level, currentLevel],
+				trend: [...acc.trend, currentTrend],
+				smoothedData: [...acc.smoothedData, currentLevel + currentTrend],
+			};
+		},
+		{
+			level: [initialState.level],
+			trend: [initialState.trend],
+			smoothedData: [initialState.smoothedData],
+		},
+	);
+
+	const forecast = (steps: number): number[] => {
+		const lastLevel = levels[levels.length - 1];
+		const lastTrend = trends[trends.length - 1];
+
+		return Array.from(
+			{ length: steps },
+			(_, i) => lastLevel + (i + 1) * lastTrend,
+		);
+	};
+
+	return {
+		level: levels,
+		trend: trends,
+		smoothedData: smoothedValues,
+		forecast,
+	};
 }

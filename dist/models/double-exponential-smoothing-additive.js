@@ -1,26 +1,47 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 export function doubleExponentialSmoothingAdditive(data, alpha, beta) {
     if (alpha <= 0 || alpha > 1 || beta <= 0 || beta > 1) {
         throw new Error("Alpha and Beta must be between 0 and 1.");
     }
-    var level = [data[0]];
-    var trend = [data[1] - data[0]];
-    var smoothedData = [data[0]];
-    for (var i = 1; i < data.length; i++) {
-        var currentLevel = alpha * data[i] + (1 - alpha) * (level[i - 1] + trend[i - 1]);
-        var currentTrend = beta * (currentLevel - level[i - 1]) + (1 - beta) * trend[i - 1];
-        level.push(currentLevel);
-        trend.push(currentTrend);
-        smoothedData.push(currentLevel + currentTrend); // 予測値ではない。平滑化された値
-    }
-    var forecast = function (steps) {
-        var forecastValues = [];
-        var lastLevel = level[level.length - 1];
-        var lastTrend = trend[trend.length - 1];
-        for (var i = 1; i <= steps; i++) {
-            var forecastValue = lastLevel + i * lastTrend;
-            forecastValues.push(forecastValue);
-        }
-        return forecastValues;
+    // 初期値を定義
+    var initialState = {
+        level: data[0],
+        trend: data[1] - data[0],
+        smoothedData: data[0],
     };
-    return { level: level, trend: trend, smoothedData: smoothedData, forecast: forecast };
+    // スムージング処理をreduceで実行
+    var _a = data.slice(1).reduce(function (acc, currentValue) {
+        var lastLevel = acc.level[acc.level.length - 1];
+        var lastTrend = acc.trend[acc.trend.length - 1];
+        var currentLevel = alpha * currentValue + (1 - alpha) * (lastLevel + lastTrend);
+        var currentTrend = beta * (currentLevel - lastLevel) + (1 - beta) * lastTrend;
+        return {
+            level: __spreadArray(__spreadArray([], acc.level, true), [currentLevel], false),
+            trend: __spreadArray(__spreadArray([], acc.trend, true), [currentTrend], false),
+            smoothedData: __spreadArray(__spreadArray([], acc.smoothedData, true), [currentLevel + currentTrend], false),
+        };
+    }, {
+        level: [initialState.level],
+        trend: [initialState.trend],
+        smoothedData: [initialState.smoothedData],
+    }), levels = _a.level, trends = _a.trend, smoothedValues = _a.smoothedData;
+    var forecast = function (steps) {
+        var lastLevel = levels[levels.length - 1];
+        var lastTrend = trends[trends.length - 1];
+        return Array.from({ length: steps }, function (_, i) { return lastLevel + (i + 1) * lastTrend; });
+    };
+    return {
+        level: levels,
+        trend: trends,
+        smoothedData: smoothedValues,
+        forecast: forecast,
+    };
 }
