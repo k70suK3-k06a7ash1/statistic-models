@@ -3,7 +3,7 @@
 A collection of statistical models implemented in TypeScript.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.0.40-blue)](https://www.npmjs.com/package/statistic-models)
+[![Version](https://img.shields.io/badge/version-0.0.41-blue)](https://www.npmjs.com/package/statistic-models)
 
 ## Overview
 
@@ -32,57 +32,127 @@ A collection of statistical models implemented in TypeScript.
         const forecastValues1 = result1.forecast(3);
 
         ```
-*   **doubleExponentialSmoothingMultiplicative**: Implements the double exponential smoothing method with a multiplicative trend.
+*   **doubleExponentialSmoothingMultiplicative**: Applies the double exponential smoothing multiplicative method to a time series data.
     *   **Arguments:**
-        *   `data`: `number[]` - Time series data.
-        *   `alpha`: `number` - Smoothing factor for the level (0 < alpha <= 1).
-        *   `beta`: `number` - Smoothing factor for the trend (0 < beta <= 1).
+        *   `data`: `number[]` - The time series data as an array of numbers.
+        *   `alpha`: `number` - The smoothing factor for the level (0 < alpha <= 1).
+        *   `beta`: `number` - The smoothing factor for the trend (0 < beta <= 1).
     *   **Returns:**
         *   `Object` - An object containing:
             *   `level`: `number[]` - Level of the time series at each point.
             *   `trend`: `number[]` - Trend of the time series at each point.
             *   `smoothedData`: `number[]` - Smoothed data at each point.
             *   `forecast`: `(steps: number) => number[]` - A function to forecast future values. Takes the number of steps as input and returns an array of forecasted values.
+    *   **Throws:**
+        *   `Error` - If alpha or beta are not between 0 and 1.
+        *   `Error` - If the data array contains less than two data points.
+    *   **Usage:**
+        ```typescript
+        const data = [10, 12, 14, 18, 24, 30];
+        const alpha = 0.5;
+        const beta = 0.3;
+        const result = doubleExponentialSmoothingMultiplicative(data, alpha, beta);
+        const forecastValues = result.forecast(3);
+
+        console.log(result.level);
+        console.log(result.trend);
+        console.log(result.smoothedData);
+
+        console.log(forecastValues);
+        ```
 *   **exponentialMovingAverageForecast**: Forecasts future values using the exponential moving average method.
     *   **Arguments:**
-        *   `data`: `number[]` - Time series data.
+        *   `data`: `number[]` - The time series data as an array of numbers.
         *   `smoothingFactor`: `number` - Smoothing factor (0 < smoothingFactor <= 1).
         *   `forecastHorizon`: `number` - Number of periods to forecast.
     *   **Returns:**
         *   `number[]` - An array of numbers representing the forecast for the given horizon.
+    *   **Usage:**
+        ```typescript
+        const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const smoothingFactor = 0.8;
+        const forecastHorizon = 2;
+        const forecastValues = exponentialMovingAverageForecast(data, smoothingFactor, forecastHorizon);
+
+        console.log(forecastValues);
+        ```
 *   **exponentialSmoothingForecast**: Forecasts future values using the exponential smoothing method.
     *   **Arguments:**
-        *   `data`: `number[]` - Time series data.
+        *   `data`: `number[]` - The time series data as an array of numbers.
         *   `forecastHorizon`: `number` - Number of periods to forecast.
         *   `smoothingLevel`: `number` - Smoothing level (0 < smoothingLevel < 1). Defaults to 0.2.
     *   **Returns:**
         *   `number[]` - An array of numbers representing the forecast for the given horizon.
+    *   **Usage:**
+        ```typescript
+        const data = [10, 12, 13, 11, 14, 17, 20, 18, 22, 25];
+        const forecastHorizon = 3;
+        const smoothingLevel = 0.2;
+        const forecastValues = exponentialSmoothingForecast(data, forecastHorizon, smoothingLevel);
+
+        console.log(forecastValues);
+        ```
 *   **exponentialSmoothing**: Smoothes time series data using the exponential smoothing method.
     *   **Arguments:**
-        *   `data`: `number[]` - Time series data.
+        *   `data`: `number[]` - The time series data as an array of numbers.
         *   `alpha`: `number` - Smoothing factor (0 < alpha <= 1).
     *   **Returns:**
         *   `number[]` - An array of numbers representing the smoothed data.
+    *   **Usage:**
+        ```typescript
+        const data = [10, 12, 15, 13];
+        const alpha = 0.5;
+        const smoothedData = exponentialSmoothing(data, alpha);
+
+        console.log(smoothedData);
+        ```
 *   **linearRegressionForecast**: Forecasts future values using linear regression.
     *   **Arguments:**
-        *   `data`: `number[]` - Time series data.
+        *   `data`: `number[]` - The time series data as an array of numbers.
         *   `forecastHorizon`: `number` - Number of periods to forecast.
         *   `lag`: `number` - Lag value. Defaults to 1.
     *   **Returns:**
         *   `number[]` - An array of numbers representing the forecast for the given horizon.
+    *   **Usage:**
+        ```typescript
+        const data = [10, 12, 15, 13, 18, 20, 22, 25];
+        const forecastHorizon = 3;
+        const lag = 2;
+
+        const forecast = linearRegressionForecast(data, forecastHorizon, lag);
+
+        console.log(forecast);
+        ```
 *   **movingAverageForecast**: Forecasts future values using the moving average method.
     *   **Arguments:**
-        *   `data`: `number[]` - Time series data.
+        *   `data`: `number[]` - The time series data as an array of numbers.
         *   `windowSize`: `number` - Window size.
         *   `forecastHorizon`: `number` - Number of periods to forecast.
     *   **Returns:**
         *   `number[]` - An array of numbers representing the forecast for the given horizon.
+    *   **Usage:**
+        ```typescript
+        const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const windowSize = 3;
+        const forecastHorizon = 2;
+        const forecastValues = movingAverageForecast(data, windowSize, forecastHorizon);
+
+        console.log(forecastValues);
+        ```
 *   **movingAverage**: Calculates the moving average of time series data.
     *   **Arguments:**
-        *   `data`: `number[]` - Time series data.
+        *   `data`: `number[]` - The time series data as an array of numbers.
         *   `windowSize`: `number` - Window size.
     *   **Returns:**
         *   `number[]` - An array of numbers representing the moving average of the data.
+    *   **Usage:**
+        ```typescript
+        const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const windowSize = 3;
+        const movingAverageValues = movingAverage(data, windowSize);
+
+        console.log(movingAverageValues);
+        ```
 *   **StateSpaceModel**: Implements a state-space model.
     *   **Constructor Arguments:**
         *   `A`: `number[][]` - State transition matrix.
@@ -95,6 +165,38 @@ A collection of statistical models implemented in TypeScript.
         *   `observe(u: number[][]): Matrix` - Predicts the observed value given the input `u`.
         *   `update(y: number[][], u: number[][]): void` - Updates the state given the observed value `y` and the input `u`.
         *   `updateWithKalman(y: number[][], R: number[][], Q: number[][], P: number[][]): void` - Updates the state using a Kalman filter.
+    *   **Usage:**
+        ```typescript
+        import { StateSpaceModel } from "src/models/state-space-model-v2";
+        import { Matrix } from "src/helpers/Matrix";
+
+        const A = [
+          [1, 0],
+          [0, 1],
+        ];
+        const B = [
+          [1, 0],
+          [0, 1],
+        ];
+        const C = [
+          [1, 0],
+          [0, 1],
+        ];
+        const D = [
+          [0, 0],
+          [0, 0],
+        ];
+        const initial_x = [[0], [0]];
+
+        const model = new StateSpaceModel(A, B, C, D, initial_x);
+
+        const u = [[1], [2]];
+        const predictedState = model.predict(u);
+        const observed = model.observe(u);
+
+        console.log(predictedState);
+        console.log(observed);
+        ```
 *   **TripleExponentialSmoothing**: Implements the triple exponential smoothing method.
     *   **Constructor Arguments:**
         *   `alpha`: `number` - Level smoothing constant (0 < alpha < 1).
@@ -107,6 +209,22 @@ A collection of statistical models implemented in TypeScript.
         *   `train(newData: number[]): void` - Trains the model with new data.
         *   `update(newValue: number): void` - Updates the model with a new data point.
         *   `logState(): void` - Logs the current state of the model (for debugging).
+    *   **Usage:**
+        ```typescript
+        import { TripleExponentialSmoothing } from "src/models/triple-exponential-smoothing-v2";
+
+        const alpha = 0.5;
+        const beta = 0.3;
+        const gamma = 0.2;
+        const period = 4;
+        const data = [10, 20, 15, 25, 12, 22, 18, 28, 14, 24, 19, 29];
+
+        const model = new TripleExponentialSmoothing(alpha, beta, gamma, period);
+        model.initialize(data);
+        const forecastValues = model.forecast(4);
+
+        console.log(forecastValues);
+        ```
 *   **VectorAutoregression**: Implements a vector autoregression (VAR) model.
     *   **Constructor Arguments:**
         *   `p`: `number` - Number of lags (how many past data points to use).
@@ -116,133 +234,35 @@ A collection of statistical models implemented in TypeScript.
         *   `fit(data: number[][]): void` - Fits the model to the given data.
         *   `predict(data: number[][], steps: number): number[][]` - Predicts future values for the given number of steps.
         *   `logState(): void` - Logs the current state of the model (for debugging).
+    *   **Usage:**
+        ```typescript
+        import { VectorAutoregression } from "src/models/vector-autoregression-v2";
+
+        const data = [
+          [1.0, 2.0],
+          [1.5, 2.5],
+          [1.3, 2.7],
+          [1.8, 3.1],
+          [2.0, 3.0],
+          [2.2, 3.4],
+          [2.5, 3.7],
+          [2.3, 3.5],
+          [2.8, 4.0],
+          [3.0, 4.2],
+        ];
+        const p = 2;
+        const k = 2;
+
+        const varModel = new VectorAutoregression(p, k);
+        varModel.fit(data);
+        const steps = 3;
+        const forecastValues = varModel.predict(data, steps);
+
+        console.log(forecastValues);
+        ```
 
 This library is designed to be modular, easy to use, and well-tested.
 
-## Usage
-
-```typescript
-
-// doubleExponentialSmoothingMultiplicative
-import { doubleExponentialSmoothingMultiplicative } from "src/models/double-exponential-smoothing-multiplicative-v2";
-
-const data2 = [10, 12, 14, 18, 24, 30];
-const alpha2 = 0.5;
-const beta2 = 0.3;
-const result2 = doubleExponentialSmoothingMultiplicative(data2, alpha2, beta2);
-const forecastValues2 = result2.forecast(3);
-
-// exponentialMovingAverageForecast
-import { exponentialMovingAverageForecast } from "src/models/exponential-moving-average-forecast-v2";
-
-const data3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const smoothingFactor3 = 0.8;
-const forecastHorizon3 = 2;
-const forecastValues3 = exponentialMovingAverageForecast(data3, smoothingFactor3, forecastHorizon3);
-
-// exponentialSmoothingForecast
-import { exponentialSmoothingForecast } from "src/models/exponential-smoothing-forecast-v2";
-
-const data4 = [10, 12, 13, 11, 14, 17, 20, 18, 22, 25];
-const forecastHorizon4 = 3;
-const smoothingLevel4 = 0.2;
-const forecastValues4 = exponentialSmoothingForecast(data4, forecastHorizon4, smoothingLevel4);
-
-// exponentialSmoothing
-import { exponentialSmoothing } from "src/models/exponential-smoothing-v2";
-
-const data5 = [10, 12, 15, 13];
-const alpha5 = 0.5;
-const smoothedData5 = exponentialSmoothing(data5, alpha5);
-
-// linearRegressionForecast
-import { linearRegressionForecast } from "src/models/linear-regression-forecast-v2";
-
-const data6 = [10, 12, 15, 13, 18, 20, 22, 25];
-const forecastHorizon6 = 3;
-const lag6 = 2;
-
-const forecast6 = linearRegressionForecast(data6, forecastHorizon6, lag6);
-
-// movingAverageForecast
-import { movingAverageForecast } from "src/models/moving-average-forecast-v2";
-
-const data7 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const windowSize7 = 3;
-const forecastHorizon7 = 2;
-const forecastValues7 = movingAverageForecast(data7, windowSize7, forecastHorizon7);
-
-// movingAverage
-import { movingAverage } from "src/models/moving-average-v2";
-
-const data8 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const windowSize8 = 3;
-const movingAverageValues8 = movingAverage(data8, windowSize8);
-
-// StateSpaceModel
-import { StateSpaceModel } from "src/models/state-space-model-v2";
-import { Matrix } from "src/helpers/Matrix";
-
-const A9 = [
-  [1, 0],
-  [0, 1],
-];
-const B9 = [
-  [1, 0],
-  [0, 1],
-];
-const C9 = [
-  [1, 0],
-  [0, 1],
-];
-const D9 = [
-  [0, 0],
-  [0, 0],
-];
-const initial_x9 = [[0], [0]];
-
-const model9 = new StateSpaceModel(A9, B9, C9, D9, initial_x9);
-
-const u9 = [[1], [2]];
-const predictedState9 = model9.predict(u9);
-const observed9 = model9.observe(u9);
-
-// TripleExponentialSmoothing
-import { TripleExponentialSmoothing } from "src/models/triple-exponential-smoothing-v2";
-
-const alpha10 = 0.5;
-const beta10 = 0.3;
-const gamma10 = 0.2;
-const period10 = 4;
-const data10 = [10, 20, 15, 25, 12, 22, 18, 28, 14, 24, 19, 29];
-
-const model10 = new TripleExponentialSmoothing(alpha10, beta10, gamma10, period10);
-model10.initialize(data10);
-const forecastValues10 = model10.forecast(4);
-
-// VectorAutoregression
-import { VectorAutoregression } from "src/models/vector-autoregression-v2";
-
-const data11 = [
-  [1.0, 2.0],
-  [1.5, 2.5],
-  [1.3, 2.7],
-  [1.8, 3.1],
-  [2.0, 3.0],
-  [2.2, 3.4],
-  [2.5, 3.7],
-  [2.3, 3.5],
-  [2.8, 4.0],
-  [3.0, 4.2],
-];
-const p11 = 2;
-const k11 = 2;
-
-const varModel11 = new VectorAutoregression(p11, k11);
-varModel11.fit(data11);
-const steps11 = 3;
-const forecastValues11 = varModel11.predict(data11, steps11);
-```
 
 ## Installation
 
