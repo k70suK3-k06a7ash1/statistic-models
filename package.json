@@ -1,6 +1,6 @@
 {
 	"name": "statistic-models",
-	"version": "0.0.31",
+	"version": "0.0.32",
 	"module": "dist/index.js",
 	"type": "module",
 	"main": "dist/index.js",
@@ -31,5 +31,11 @@
 		"vitest": "^3.0.5",
 		"typescript": "^5.0.0"
 	},
+	"contributors": [
+		{
+			"name": "k70suK3",
+			"url": "https://github.com/k70suK3-k06a7ash1"
+		}
+	],
 	"peerDependencies": {}
 }
