@@ -3,7 +3,7 @@
 A collection of statistical models implemented in TypeScript.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.0.39-blue)](https://www.npmjs.com/package/statistic-models)
+[![Version](https://img.shields.io/badge/version-0.0.40-blue)](https://www.npmjs.com/package/statistic-models)
 
 ## Overview
 
@@ -20,6 +20,18 @@ A collection of statistical models implemented in TypeScript.
             *   `trend`: `number[]` - Trend of the time series at each point.
             *   `smoothedData`: `number[]` - Smoothed data at each point.
             *   `forecast`: `(steps: number) => number[]` - A function to forecast future values. Takes the number of steps as input and returns an array of forecasted values.
+    *   **Usage:**
+        ```typescript
+        // doubleExponentialSmoothingAdditive
+        import { doubleExponentialSmoothingAdditive } from "src/models/double-exponential-smoothing-additive-v2";
+
+        const data1 = [10, 12, 14, 18, 24, 30];
+        const alpha1 = 0.5;
+        const beta1 = 0.3;
+        const result1 = doubleExponentialSmoothingAdditive(data1, alpha1, beta1);
+        const forecastValues1 = result1.forecast(3);
+
+        ```
 *   **doubleExponentialSmoothingMultiplicative**: Implements the double exponential smoothing method with a multiplicative trend.
     *   **Arguments:**
         *   `data`: `number[]` - Time series data.
@@ -110,14 +122,6 @@ This library is designed to be modular, easy to use, and well-tested.
 ## Usage
 
 ```typescript
-// doubleExponentialSmoothingAdditive
-import { doubleExponentialSmoothingAdditive } from "src/models/double-exponential-smoothing-additive-v2";
-
-const data1 = [10, 12, 14, 18, 24, 30];
-const alpha1 = 0.5;
-const beta1 = 0.3;
-const result1 = doubleExponentialSmoothingAdditive(data1, alpha1, beta1);
-const forecastValues1 = result1.forecast(3);
 
 // doubleExponentialSmoothingMultiplicative
 import { doubleExponentialSmoothingMultiplicative } from "src/models/double-exponential-smoothing-multiplicative-v2";
