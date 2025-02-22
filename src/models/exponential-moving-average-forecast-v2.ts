@@ -12,6 +12,27 @@ export function exponentialMovingAverageForecast(
 		);
 	}
 
+	/**
+	 * Calculates the exponential moving average forecast for a given data set.
+	 *
+	 * @param {number[]} data - The input data array.
+	 * @param {number} smoothingFactor - The smoothing factor (0 < smoothingFactor <= 1).
+	 * @param {number} forecastHorizon - The number of periods to forecast.
+	 * @returns {number[]} - An array containing the forecasted values.
+	 *
+	 * @throws {Error} If the data array is empty.
+	 * @throws {Error} If the smoothing factor is not between 0 and 1 or the forecast horizon is not a positive integer.
+	 *
+	 * Usage:
+	 * ```typescript
+	 * const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	 * const smoothingFactor = 0.8;
+	 * const forecastHorizon = 2;
+	 * const forecast = exponentialMovingAverageForecast(data, smoothingFactor, forecastHorizon);
+	 * console.log(forecast); // [9.750000128, 9.750000128]
+	 * ```
+	 */
+
 	// 初期値をデータの最初の値に設定
 	let ema = data[0];
 

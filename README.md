@@ -3,7 +3,7 @@
 A collection of statistical models implemented in TypeScript.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.0.37-blue)](https://www.npmjs.com/package/statistic-models)
+[![Version](https://img.shields.io/badge/version-0.0.38-blue)](https://www.npmjs.com/package/statistic-models)
 
 ## Overview
 

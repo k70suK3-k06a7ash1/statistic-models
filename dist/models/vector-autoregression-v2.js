@@ -1,4 +1,31 @@
 import { Matrix } from "../helpers/Matrix";
+/**
+ * Represents a vector autoregression model.
+ *
+ * Usage:
+ * ```typescript
+ * const data = [
+ *   [1.0, 2.0],
+ *   [1.5, 2.5],
+ *   [1.3, 2.7],
+ *   [1.8, 3.1],
+ *   [2.0, 3.0],
+ *   [2.2, 3.4],
+ *   [2.5, 3.7],
+ *   [2.3, 3.5],
+ *   [2.8, 4.0],
+ *   [3.0, 4.2],
+ * ];
+ * const p = 2;
+ * const k = 2;
+ *
+ * const varModel = new VectorAutoregression(p, k);
+ * varModel.fit(data);
+ * const steps = 3;
+ * const forecast = varModel.predict(data, steps);
+ * console.log(forecast);
+ * ```
+ */
 var VectorAutoregression = /** @class */ (function () {
     function VectorAutoregression(p, k) {
         this.p = p;
@@ -8,7 +35,11 @@ var VectorAutoregression = /** @class */ (function () {
             this.coefficients.push(new Matrix(k, k)); // 各係数行列を初期化
         }
     }
-    // データの整形 (VARモデルの学習に適した形に変換)
+    /**
+     * Prepares the data for training the VAR model.
+     * @param data The input data.
+     * @returns The prepared data.
+     */
     VectorAutoregression.prototype.prepareData = function (data) {
         var T = data.length; // 時間点の数
         if (T <= this.p) {
@@ -38,7 +69,10 @@ var VectorAutoregression = /** @class */ (function () {
         var X = new Matrix(X_data.length, this.p * this.k, X_data); // Xを行列に変換
         return { Y: Y, X: X };
     };
-    // モデルの学習
+    /**
+     * Fits the model to the given data.
+     * @param data The input data.
+     */
     VectorAutoregression.prototype.fit = function (data) {
         var _a = this.prepareData(data), Y = _a.Y, X = _a.X;
         // OLS (最小二乗法) で係数を推定
@@ -63,7 +97,12 @@ var VectorAutoregression = /** @class */ (function () {
             this.coefficients[i] = new Matrix(this.k, this.k, Ai_data);
         }
     };
-    // 予測
+    /**
+     * Predicts future values.
+     * @param data The input data.
+     * @param steps The number of steps to predict.
+     * @returns The predicted values.
+     */
     VectorAutoregression.prototype.predict = function (data, steps) {
         var T = data.length;
         var predictedValues = [];
@@ -76,7 +115,11 @@ var VectorAutoregression = /** @class */ (function () {
         }
         return predictedValues;
     };
-    // 次の値を予測 (predictの内部関数)
+    /**
+     * Predicts the next value (internal function).
+     * @param lastData The last p data points.
+     * @returns The predicted value.
+     */
     VectorAutoregression.prototype.predictNext = function (lastData) {
         if (lastData.length !== this.p) {
             throw new Error("予測に必要な過去データが不足しています。");
@@ -93,7 +136,9 @@ var VectorAutoregression = /** @class */ (function () {
         }
         return prediction;
     };
-    // 現在の状態をログ出力 (デバッグ用)
+    /**
+     * Logs the current state of the model (for debugging).
+     */
     VectorAutoregression.prototype.logState = function () {
         console.log("ラグ数 (p):", this.p);
         console.log("変数の数 (k):", this.k);

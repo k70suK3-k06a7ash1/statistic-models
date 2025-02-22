@@ -13,6 +13,25 @@ export function linearRegressionForecast(data, forecastHorizon, lag) {
     if (data.length <= lag) {
         throw new Error("データ長がラグより大きい必要があります。");
     }
+    /**
+     * Predicts future values based on linear regression.
+     *
+     * @param {number[]} data - The input data array.
+     * @param {number} forecastHorizon - The number of periods to forecast.
+     * @param {number} lag - The number of lagged values to use as predictors.
+     * @returns {number[]} - An array containing the forecasted values.
+     *
+     * Usage:
+     * ```typescript
+     * const data = [10, 12, 15, 13, 18, 20, 22, 25];
+     * const forecastHorizon = 3;
+     * const lag = 2;
+     *
+     * const forecast = linearRegressionForecast(data, forecastHorizon, lag);
+     *
+     * console.log(forecast); // [ 27.316199962413137, 30.328439375339528, 33.16705128188415 ]
+     * ```
+     */
     var X = data.slice(0, -lag).map(function (_, i) { return __spreadArray([1], data.slice(i, i + lag), true); });
     var y = data.slice(lag);
     var XMatrix = new Matrix(X.length, lag + 1, X);

@@ -1,5 +1,32 @@
 import { Matrix } from "../helpers/Matrix";
 
+/**
+ * Represents a vector autoregression model.
+ *
+ * Usage:
+ * ```typescript
+ * const data = [
+ *   [1.0, 2.0],
+ *   [1.5, 2.5],
+ *   [1.3, 2.7],
+ *   [1.8, 3.1],
+ *   [2.0, 3.0],
+ *   [2.2, 3.4],
+ *   [2.5, 3.7],
+ *   [2.3, 3.5],
+ *   [2.8, 4.0],
+ *   [3.0, 4.2],
+ * ];
+ * const p = 2;
+ * const k = 2;
+ *
+ * const varModel = new VectorAutoregression(p, k);
+ * varModel.fit(data);
+ * const steps = 3;
+ * const forecast = varModel.predict(data, steps);
+ * console.log(forecast);
+ * ```
+ */
 export class VectorAutoregression {
 	p: number; // ラグ数 (過去のデータのいくつを使用するか)
 	k: number; // 変数の数 (時系列の数)
@@ -14,7 +41,11 @@ export class VectorAutoregression {
 		}
 	}
 
-	// データの整形 (VARモデルの学習に適した形に変換)
+	/**
+	 * Prepares the data for training the VAR model.
+	 * @param data The input data.
+	 * @returns The prepared data.
+	 */
 	prepareData(data: number[][]): { Y: Matrix; X: Matrix } {
 		const T = data.length; // 時間点の数
 
@@ -47,7 +78,10 @@ export class VectorAutoregression {
 		return { Y, X };
 	}
 
-	// モデルの学習
+	/**
+	 * Fits the model to the given data.
+	 * @param data The input data.
+	 */
 	fit(data: number[][]): void {
 		const { Y, X } = this.prepareData(data);
 
@@ -76,7 +110,12 @@ export class VectorAutoregression {
 		}
 	}
 
-	// 予測
+	/**
+	 * Predicts future values.
+	 * @param data The input data.
+	 * @param steps The number of steps to predict.
+	 * @returns The predicted values.
+	 */
 	predict(data: number[][], steps: number): number[][] {
 		const T = data.length;
 		const predictedValues: number[][] = [];
@@ -93,7 +132,11 @@ export class VectorAutoregression {
 		return predictedValues;
 	}
 
-	// 次の値を予測 (predictの内部関数)
+	/**
+	 * Predicts the next value (internal function).
+	 * @param lastData The last p data points.
+	 * @returns The predicted value.
+	 */
 	private predictNext(lastData: number[][]): number[] {
 		if (lastData.length !== this.p) {
 			throw new Error("予測に必要な過去データが不足しています。");
@@ -115,7 +158,9 @@ export class VectorAutoregression {
 		return prediction;
 	}
 
-	// 現在の状態をログ出力 (デバッグ用)
+	/**
+	 * Logs the current state of the model (for debugging).
+	 */
 	logState(): void {
 		console.log("ラグ数 (p):", this.p);
 		console.log("変数の数 (k):", this.k);

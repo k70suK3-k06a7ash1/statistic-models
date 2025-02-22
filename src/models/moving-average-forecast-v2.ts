@@ -13,6 +13,24 @@ export function movingAverageForecast(
 		throw new Error("データ長がウィンドウサイズより小さい");
 	}
 
+	/**
+	 * Calculates the moving average forecast for a given data set.
+	 *
+	 * @param {number[]} data - The input data array.
+	 * @param {number} windowSize - The size of the moving average window.
+	 * @param {number} forecastHorizon - The number of periods to forecast.
+	 * @returns {number[]} - An array containing the forecasted values.
+	 *
+	 * Usage:
+	 * ```typescript
+	 * const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	 * const windowSize = 3;
+	 * const forecastHorizon = 2;
+	 * const forecast = movingAverageForecast(data, windowSize, forecastHorizon);
+	 * console.log(forecast); // [9, 9]
+	 * ```
+	 */
+
 	// 直近のウィンドウの平均値を計算
 	const lastWindow = data.slice(-windowSize);
 	const lastWindowAverage =

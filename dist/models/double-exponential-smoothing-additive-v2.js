@@ -32,6 +32,32 @@ export function doubleExponentialSmoothingAdditive(data, alpha, beta) {
         trend: initialTrend,
         smoothedData: data[0],
     };
+    /**
+     * Applies the double exponential smoothing additive method to a time series data.
+     *
+     * @param {number[]} data - The time series data as an array of numbers.
+     * @param {number} alpha - The smoothing factor for the level (0 < alpha <= 1).
+     * @param {number} beta - The smoothing factor for the trend (0 < beta <= 1).
+     * @returns {{ level: number[]; trend: number[]; smoothedData: number[]; forecast: (steps: number) => number[] }} - An object containing the level, trend, smoothed data, and a forecast function.
+     *
+     * @throws {Error} If alpha or beta are not between 0 and 1.
+     * @throws {Error} If the data array contains less than two data points.
+     *
+     * Usage:
+     * ```typescript
+     * const data = [10, 12, 14, 18, 24, 30];
+     * const alpha = 0.5;
+     * const beta = 0.3;
+     * const result = doubleExponentialSmoothingAdditive(data, alpha, beta);
+     *
+     * console.log(result.level);
+     * console.log(result.trend);
+     * console.log(result.smoothedData);
+     *
+     * const forecastValues = result.forecast(3);
+     * console.log(forecastValues);
+     * ```
+     */
     var result = data.slice(1).reduce(function (acc, point) {
         var lastLevel = acc.level[acc.level.length - 1];
         var lastTrend = acc.trend[acc.trend.length - 1];
