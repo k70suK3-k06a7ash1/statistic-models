@@ -3,7 +3,7 @@
 A collection of statistical models implemented in TypeScript.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.0.41-blue)](https://www.npmjs.com/package/statistic-models)
+[![Version](https://img.shields.io/badge/version-0.0.42-blue)](https://www.npmjs.com/package/statistic-models)
 
 ## Overview
 
@@ -22,9 +22,6 @@ A collection of statistical models implemented in TypeScript.
             *   `forecast`: `(steps: number) => number[]` - A function to forecast future values. Takes the number of steps as input and returns an array of forecasted values.
     *   **Usage:**
         ```typescript
-        // doubleExponentialSmoothingAdditive
-        import { doubleExponentialSmoothingAdditive } from "src/models/double-exponential-smoothing-additive-v2";
-
         const data1 = [10, 12, 14, 18, 24, 30];
         const alpha1 = 0.5;
         const beta1 = 0.3;
@@ -167,8 +164,7 @@ A collection of statistical models implemented in TypeScript.
         *   `updateWithKalman(y: number[][], R: number[][], Q: number[][], P: number[][]): void` - Updates the state using a Kalman filter.
     *   **Usage:**
         ```typescript
-        import { StateSpaceModel } from "src/models/state-space-model-v2";
-        import { Matrix } from "src/helpers/Matrix";
+        import { StateSpaceModel, Matrix } from "statistic-models";
 
         const A = [
           [1, 0],
@@ -211,7 +207,7 @@ A collection of statistical models implemented in TypeScript.
         *   `logState(): void` - Logs the current state of the model (for debugging).
     *   **Usage:**
         ```typescript
-        import { TripleExponentialSmoothing } from "src/models/triple-exponential-smoothing-v2";
+        import { TripleExponentialSmoothing } from "statistic-models";
 
         const alpha = 0.5;
         const beta = 0.3;
@@ -236,7 +232,7 @@ A collection of statistical models implemented in TypeScript.
         *   `logState(): void` - Logs the current state of the model (for debugging).
     *   **Usage:**
         ```typescript
-        import { VectorAutoregression } from "src/models/vector-autoregression-v2";
+        import { VectorAutoregression } from "statistic-models";
 
         const data = [
           [1.0, 2.0],
