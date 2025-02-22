@@ -3,7 +3,14 @@
 A collection of statistical models implemented in TypeScript.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.0.42-blue)](https://www.npmjs.com/package/statistic-models)
+[![Version](https://img.shields.io/badge/version-0.0.43-blue)](https://www.npmjs.com/package/statistic-models)
+
+
+## Installation
+
+```bash
+npm install statistic-models
+```
 
 ## Overview
 
@@ -260,11 +267,7 @@ A collection of statistical models implemented in TypeScript.
 This library is designed to be modular, easy to use, and well-tested.
 
 
-## Installation
 
-```bash
-npm install statistic-models
-```
 
 
 License
