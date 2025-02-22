@@ -1,4 +1,5 @@
 pub: publish push
+
 publish:
 	bun run build && bun publish
 
