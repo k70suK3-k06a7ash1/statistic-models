@@ -1,12 +1,23 @@
 {
 	"name": "statistic-models",
-	"version": "0.0.34",
+	"version": "0.0.35",
 	"module": "dist/index.js",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"author": "k70suk3",
 	"license": "MIT",
+	"keywords": [
+		"statistics",
+		"models",
+		"forecast",
+		"time series",
+		"regression",
+		"moving average",
+		"exponential smoothing",
+		"state space model",
+		"vector autoregression"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/k70suK3-k06a7ash1/statistic-models.git"
